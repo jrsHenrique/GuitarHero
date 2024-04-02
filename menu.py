@@ -53,8 +53,19 @@ class StartGameEnvironment:
             self.clock.tick(60)
 
     def launch_selected_game(self):
-        # Launch the selected game. This is a placeholder for launching actual games.
-        print(f"Launching {self.menu_options[self.selected_option]}")
+        if self.selected_option == 0:
+            self.current_game = DisritmiaGame()
+        elif self.selected_option == 1:
+            self.current_game = InternetToxicaGame()
+        elif self.selected_option == 2:
+            self.current_game = WhenSunGoesDownGame()
+        elif self.selected_option == 3:
+            self.current_game = WishYouWereHereGame()
+        elif self.selected_option == 4:
+            self.current_game = StairwayToHeavenGame()
+        elif self.selected_option == 5:
+            self.current_game = SmellsLikeTeenSpiritGame()
+        self.current_game.run()
 
 class InitialMenu:
     def __init__(self, screen):
