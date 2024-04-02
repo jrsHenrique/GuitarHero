@@ -16,40 +16,44 @@ class StartGameEnvironment:
         # Set up the menu options
         self.menu_options = ["Disritmia", "A internet é tóxica", "When the sun goes down", "Wish you were here", "Stairway to heaven", "Smells like teen Spirit"]
         self.selected_option = None
+        self.option_rects = []  # Rectangles for each option
 
     def draw_menu(self):
         # Fill the screen with the background image
         self.screen.blit(self.background, (0, 0))
 
         # Render and draw the menu options
+        self.option_rects = []  # Clear previous option rectangles
         for i, option in enumerate(self.menu_options):
             text = self.font.render(option, True, (255, 255, 255))
-            if i == self.selected_option:
-                pygame.draw.rect(self.screen, (255, 0, 0), (self.screen.get_width() // 2 - 100, 200 + i * 50, 200, 40))
-            self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 200 + i * 50))
+            text_rect = text.get_rect()
+            text_rect.center = (self.screen.get_width() // 2, 200 + i * 50)  # Position the text
 
-        # Draw the selected option
+            # Draw option rectangle
+            option_rect = pygame.Rect(text_rect.left - 10, text_rect.top - 5, text_rect.width + 20, text_rect.height + 10)
+            self.option_rects.append(option_rect)
+
+            # Highlight selected option
+            if i == self.selected_option:
+                pygame.draw.rect(self.screen, (255, 0, 0), option_rect)
+            
+            # Draw text
+            self.screen.blit(text, text_rect)
 
     def run(self):
+        self.selected_option = 0
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_1:
-                        self.selected_option = self.menu_options[0]
-                    elif event.key == pygame.K_2:
-                        self.selected_option = self.menu_options[1]
-                    elif event.key == pygame.K_3:
-                        self.selected_option = self.menu_options[2]
-                    elif event.key == pygame.K_4:
-                        self.selected_option = self.menu_options[3]
-                    elif event.key == pygame.K_5:
-                        self.selected_option = self.menu_options[4]
-                    elif event.key == pygame.K_6:
-                        self.selected_option = self.menu_options[5]
-
+                    if event.key == pygame.K_UP:
+                        self.selected_option = (self.selected_option - 1) % len(self.menu_options)
+                    elif event.key == pygame.K_DOWN:
+                        self.selected_option = (self.selected_option + 1) % len(self.menu_options)
+                    elif event.key == pygame.K_RETURN:
+                        print("Selected option:", self.menu_options[self.selected_option])
             self.draw_menu()
             pygame.display.flip()
 
