@@ -1,16 +1,16 @@
 import pygame
-from musics.disritmia import DisritmiaGame
-from musics.internet_toxica import InternetToxicaGame
-from musics.when_sun_goes_down import WhenSunGoesDownGame
-from musics.wish_you_were_here import WishYouWereHereGame
-from musics.stairway_to_heaven import StairwayToHeavenGame
-from musics.smells_like_teen_spirit import SmellsLikeTeenSpiritGame
+from src.games.disritmia import DisritmiaGame
+from src.games.internet_toxica import InternetToxicaGame
+from src.games.smells_like_teen_spirit import SmellsLikeTeenSpiritGame
+from src.games.stairway_to_heaven import StairwayToHeavenGame
+from src.games.when_sun_goes_down import WhenSunGoesDownGame
+from src.games.wish_you_were_here import WishYouWereHereGame
 
 class StartGameEnvironment:        
     def __init__(self, screen):
         self.screen = screen
         self.clock = pygame.time.Clock()
-        self.background = pygame.image.load("imagens/gameback.jpeg").convert()
+        self.background = pygame.image.load("assets/images/gameback.jpeg").convert()
         self.background = pygame.transform.scale(self.background, (800, 600))
         self.font = pygame.font.Font(None, 36)
         self.menu_options = ["Disritmia", "A internet é tóxica", "When the sun goes down", "Wish you were here", "Stairway to heaven", "Smells like teen Spirit", "Voltar"]
@@ -71,7 +71,7 @@ class InitialMenu:
     def __init__(self, screen):
         self.screen = screen
         self.font = pygame.font.Font(None, 36)
-        self.background_image = pygame.image.load("imagens/guitar.jpeg")
+        self.background_image = pygame.image.load("assets/images/guitar.jpeg")
         self.background_image = pygame.transform.scale(self.background_image, (800, 600))
 
     def run_game(self):
