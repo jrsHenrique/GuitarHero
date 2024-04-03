@@ -4,7 +4,7 @@ class InitialMenu:
     def __init__(self, screen):
         self.screen = screen
         self.font = pygame.font.Font(None, 36)
-        self.background_image = pygame.image.load("assets/images/guitar.jpeg")
+        self.background_image = pygame.image.load("assets/images/baby.jpeg")
         self.background_image = pygame.transform.scale(self.background_image, (800, 600))
 
     def run_game(self):
