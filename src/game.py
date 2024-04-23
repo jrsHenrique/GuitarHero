@@ -73,11 +73,16 @@ class GameMain():
         if not self.song_over:
 
             for fret in self.frets:
-                pygame.draw.circle(self.screen, fret.color, fret.rect.center, 25)
+                # Desenha o fundo preto para cada fret
+                pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 25)
+                # Desenha a borda colorida
+                pygame.draw.circle(self.screen, fret.color, fret.rect.center, 25, 5)
+
                 if fret.held_note != None:
-                    pygame.draw.line(self.screen, fret.color, fret.rect.center, (fret.rect.center[0],fret.held_note.sustain_y), 3) 
+                    pygame.draw.line(self.screen, fret.color, fret.rect.center, (fret.rect.center[0], fret.held_note.sustain_y), 3)
+                    
                 if fret.pressed:
-                    pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 15)
+                    pygame.draw.circle(self.screen, fret.color, fret.rect.center, 15)
 
             for note in self.song.loaded_notes:
                 pygame.draw.circle(self.screen, Color(note.color), note.rect.center, 20)
