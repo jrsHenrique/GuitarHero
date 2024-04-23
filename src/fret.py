@@ -64,6 +64,13 @@ class Fret(pygame.sprite.Sprite):
                         note.held = True
                         self.held_note = note
 
+        #checking for missed notes
+        for note in self.game.song.loaded_notes:
+        # Assume the note miss threshold is y = 760, adjust as necessary
+            if note.rect.top > 760 and not note.dead and not note.held:
+                note.dead = True  # Mark the note as dead to avoid multiple counts
+                self.game.missed_notes += 1
+
         if self.held_note != None:
             self.game.score += 2 * self.game.multiplier
             if self.held_note.sustain_y  > 720:

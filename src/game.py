@@ -35,6 +35,7 @@ class GameMain():
         self.score = 0
         self.multiplier = 1
         self.partial_multiplier = 0
+        self.missed_notes = 0
     
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.score_text = self.font.render('0', True, Color('white'))
@@ -100,6 +101,11 @@ class GameMain():
             self.screen.blit(self.partial_text, self.partial_text_rect)
 
             pygame.draw.line(self.screen, Color('green'), (1015, 517), (1015, 539.5), 4)
+
+            if self.missed_notes >= 10:
+                #stop media playback
+                self.song.audio_stream.stop()
+                self.song_over = True
 
         #The end of song screen
         else:
@@ -341,7 +347,7 @@ class Menu:
                 game = GameMain('assets/charts/topgun.chart')
                 game.main_loop()
             if 'click' in self.hail.handleEvent(event):
-                game = GameMain('../assets/charts/hail.chart')
+                game = GameMain('assets/charts/hail.chart')
                 game.main_loop()
             if 'click' in self.choose.handleEvent(event):
                 root = tk.Tk()
@@ -369,7 +375,7 @@ class Menu:
                         game = GameMain('assets/charts/topgun.chart')
                         game.main_loop()
                     elif self.selected_button_index == 3:
-                        game = GameMain('../assets/charts/hail.chart')
+                        game = GameMain('assets/charts/hail.chart')
                         game.main_loop()
                     elif self.selected_button_index == 4:
                         root = tk.Tk()
