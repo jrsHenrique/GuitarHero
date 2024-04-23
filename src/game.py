@@ -134,38 +134,25 @@ class GameMain():
                     self.song.audio_stream.stop()
                     menu = Menu()
                     menu.main_loop()
-                
                 elif event.key == K_a:
                     self.fret0.pressed = True
                     if self.song_over:
                         menu = Menu()
                         menu.main_loop()
-                    else:
-                        self.fret0.check_for_strum()
-                        
                 elif event.key == K_s:
                     self.fret1.pressed = True
                     if self.song_over:
                         self.done = True
-                    else:
-                        self.fret0.check_for_strum()
-                        
                 elif event.key == K_d:
                     self.fret2.pressed = True
-                    self.fret0.check_for_strum()
-                    
                 elif event.key == K_f:
                     self.fret3.pressed = True
-                    self.fret0.check_for_strum()
-                    
                 elif event.key == K_g:
                     self.fret4.pressed = True
-                    self.fret0.check_for_strum()
-                    
-                # elif event.key == K_LEFT or event.key == K_RIGHT:
-                #     for fret in self.frets:
-                #         if fret.pressed:
-                #             fret.check_for_strum()d
+                elif event.key == K_LEFT or event.key == K_RIGHT:
+                    for fret in self.frets:
+                        if fret.pressed:
+                            fret.check_for_strum()
             elif event.type == KEYUP:
                 if event.key == K_a:
                     self.fret0.pressed = False
@@ -185,24 +172,16 @@ class GameMain():
                     if self.song_over:
                         menu = Menu()
                         menu.main_loop()
-                    else:
-                        self.fret0.check_for_strum()
-
                 elif event.button == 1:
                     self.fret1.pressed = True
                     if self.song_over:
                         self.done = True
-                    else:
-                        self.fret1.check_for_strum()
-
                 elif event.button == 3:
                     self.fret2.pressed = True
-                    self.fret2.check_for_strum()
-
                 elif event.button == 2:
                     self.fret3.pressed = True
-                    self.fret3.check_for_strum()
-                    
+                elif event.button == 4:
+                    self.fret4.pressed = True
             elif event.type == JOYBUTTONUP:
                 if event.button == 0:
                     self.fret0.pressed = False
@@ -214,7 +193,6 @@ class GameMain():
                     self.fret3.pressed = False
                 elif event.button == 4:
                     self.fret4.pressed = False
-                    
             elif event.type == JOYHATMOTION:
                 if event.value == (0, -1) or event.value == (0, 1):
                     for fret in self.frets:
