@@ -226,7 +226,7 @@ class Menu:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
-        self.background_image = pygame.image.load("../assets/images/guitarnew.png")
+        self.background_image = pygame.image.load("assets/images/guitarnew.png")
         self.background_image = pygame.transform.scale(self.background_image, (self.width, self.height))
         self.selected_button_index = 0
 
