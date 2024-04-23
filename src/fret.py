@@ -11,6 +11,8 @@ class Fret(pygame.sprite.Sprite):
         self.game = game
         self.pressed = False
         self.held_note = None
+        self.fire_active = False
+        self.fire_timer = 0
 
         self.image = pygame.Surface([50, 50])
         self.rect = self.image.get_rect()
@@ -26,6 +28,8 @@ class Fret(pygame.sprite.Sprite):
                     self.game.song.previous_note_hit = True
                     self.game.score += 50 * self.game.multiplier
                     self.game.partial_multiplier += 1
+                    self.fire_active = True
+                    self.fire_timer = 10
                 else:
                     for fret in self.game.frets:
                         if fret.pressed and fret.num > self.num:
@@ -35,6 +39,8 @@ class Fret(pygame.sprite.Sprite):
                         self.game.song.previous_note_hit = True
                         self.game.score += 50 * self.game.multiplier
                         self.game.partial_multiplier += 1
+                        self.fire_active = True
+                        self.fire_timer = 10
                 if note.sustain != 0 and self.pressed:
                     note.held = True
                     self.held_note = note

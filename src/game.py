@@ -12,45 +12,38 @@ class GameMain():
     color_bg = Color('black')
 
     def __init__(self, chart, width=1280, height=800):
-        
         pygame.mixer.pre_init(44100,-16,2,2048)
         pygame.init()
         self.width, self.height = width, height
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-
         self.chart = chart
         self.song = Song(self.chart, self)
         self.song.load_chart()
-
         self.frets = pygame.sprite.Group()
         self.fret0 = Fret(540, 720, Color('green'), 0, self)
         self.fret1 = Fret(590, 720, Color('red'), 1, self)
         self.fret2 = Fret(640, 720, Color('yellow'), 2, self)
         self.fret3 = Fret(690, 720, Color('blue'), 3, self)
         self.fret4 = Fret(740, 720, Color('orange'), 4, self)
-
         self.frets.add(self.fret0, self.fret1, self.fret2, self.fret3, self.fret4)
-
+        fire_image_original = pygame.image.load('../assets/images/rXjEwA.gif.png').convert_alpha()
+        self.fire_image = pygame.transform.scale(fire_image_original, (120, 120))  # Redimensionar a imagem para caber no botão
+        self.fire_active = False
         self.score = 0
         self.multiplier = 1
         self.partial_multiplier = 0
-    
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.score_text = self.font.render('0', True, Color('white'))
         self.score_text_rect = self.score_text.get_rect()
         self.score_text_rect.center = (940, 400)
-
         self.multiplier_text = self.font.render('x1', True, Color('white'))
         self.multiplier_text_rect = self.score_text.get_rect()
         self.multiplier_text_rect.center = (940, 500)
-
         self.partial_text = self.font.render('', True, Color('white'))
         self.partial_text_rect = self.partial_text.get_rect()
         self.partial_text_rect.center = (940, 530)
-
         self.song.audio_stream.play()
-
         self.song_over = False
 
     def main_loop(self):
@@ -68,21 +61,21 @@ class GameMain():
 
     def draw(self):
         self.screen.fill(self.color_bg)
-
-        #The main game
         if not self.song_over:
-
             for fret in self.frets:
-                # Desenha o fundo preto para cada fret
                 pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 25)
-                # Desenha a borda colorida
                 pygame.draw.circle(self.screen, fret.color, fret.rect.center, 25, 5)
-
                 if fret.held_note != None:
                     pygame.draw.line(self.screen, fret.color, fret.rect.center, (fret.rect.center[0], fret.held_note.sustain_y), 3)
-                    
                 if fret.pressed:
                     pygame.draw.circle(self.screen, fret.color, fret.rect.center, 15)
+                if fret.fire_active and fret.fire_timer > 0:
+                    fire_pos = (fret.rect.center[0] - self.fire_image.get_width() // 2, 
+                                fret.rect.center[1] - self.fire_image.get_height() * 0.7)
+                    self.screen.blit(self.fire_image, fire_pos)
+                    fret.fire_timer -= 1
+                elif fret.fire_timer <= 0:
+                    fret.fire_active = False
 
             for note in self.song.loaded_notes:
                 pygame.draw.circle(self.screen, Color(note.color), note.rect.center, 20)
@@ -91,43 +84,29 @@ class GameMain():
                         pygame.draw.line(self.screen, Color(note.color), note.rect.center, (note.rect.center[0], note.sustain_y))
                 if note.hopo == True:
                     pygame.draw.circle(self.screen, Color('white'), note.rect.center, 10)
-
-
             self.score_text = self.font.render('{}'.format(self.score), True, Color('white'))
             self.screen.blit(self.score_text, self.score_text_rect)
-
             self.multiplier_text = self.font.render('x{}'.format(self.multiplier), True, Color('white'))
             self.screen.blit(self.multiplier_text, self.multiplier_text_rect)
-
             if self.multiplier == 4:
                 self.partial_multiplier = 8
             self.partial_text = self.font.render('I'*self.partial_multiplier, True, Color('white'))
             self.screen.blit(self.partial_text, self.partial_text_rect)
-
             pygame.draw.line(self.screen, Color('green'), (1015, 517), (1015, 539.5), 4)
-
-        #The end of song screen
         else:
-
             self.final_score_text = self.font.render('Final Score: {}'.format(self.score), True, Color('blue'))
             self.final_score_rect = self.final_score_text.get_rect()
             self.final_score_rect.center = (self.width/2, self.height/2 - 50)
-
             self.play_again_text = self.font.render('Press A or Green to return to menu', True, Color('green'))
             self.play_again_rect = self.play_again_text.get_rect()
             self.play_again_rect.center = (self.width/2, self.height/2)
-
             self.quit_text = self.font.render('Press S or Red to quit', True, Color('red'))
             self.quit_rect = self.quit_text.get_rect()
             self.quit_rect.center = (self.width/2, self.height/2 + 50)
-            
             self.screen.blit(self.final_score_text, self.final_score_rect)
             self.screen.blit(self.play_again_text, self.play_again_rect)
             self.screen.blit(self.quit_text, self.quit_rect)
-                
-        
-
-        pygame.display.flip() #put all the work on the screen
+        pygame.display.flip()  # put all the work on the screen
 
     def handle_events(self):
 
