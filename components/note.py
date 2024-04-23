@@ -1,4 +1,6 @@
 import pygame
+import sys
+sys.path.append('./guitar_hero_game/')
 from settings import WIDTH, HEIGHT, COLORS
 
 class Note(pygame.sprite.Sprite):

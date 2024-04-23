@@ -1,3 +1,4 @@
+import sys
 from game_window import GameWindow
 
 def main():

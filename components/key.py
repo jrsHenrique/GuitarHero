@@ -1,4 +1,6 @@
 import pygame
+import sys
+sys.path.append('./guitar_hero_game/')
 from settings import COLORS, KEY_MAPPINGS
 
 class Key:

@@ -1,7 +1,6 @@
 from tkinter import font
 import pygame
 
-
 class Button:
     def __init__(self, window, x, y, text, callback):
         self.window = window
