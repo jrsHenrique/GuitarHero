@@ -1,6 +1,6 @@
-AudioStream = topgunanthem.wav
+AudioStream = assets/sounds/topgun.ogg
 Resolution = 480
-Offset = -1.7
+Offset = -1.5
 BPM = 107
 Divisor = 3.2587
 

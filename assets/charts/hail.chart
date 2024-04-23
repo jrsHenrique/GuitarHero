@@ -1,4 +1,4 @@
-AudioStream = ../assets/sounds/guitar.ogg
+AudioStream = assets/sounds/guitar.ogg
 Resolution = 480
 Offset = -2
 BPM = 118
