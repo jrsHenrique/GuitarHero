@@ -317,7 +317,7 @@ class Menu():
                 game = GameMain('assets/charts/topgun.chart')
                 game.main_loop()
             if 'click' in self.hail.handleEvent(event):
-                game = GameMain('assets/charts/hail.chart')
+                game = GameMain('../assets/charts/hail.chart')
                 game.main_loop()
             if 'click' in self.choose.handleEvent(event):   
                 root = tk.Tk()
