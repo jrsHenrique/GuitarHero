@@ -205,32 +205,53 @@ class GameMain():
                     for fret in self.frets:
                         if fret.pressed:
                             fret.check_for_strum()
-                    
-class Menu():
 
+import pygame
+import pygbutton
+from pygame.locals import *
+
+class Menu:
     done = False
-    color_bg = Color('gray30')
+    color_bg = pygame.Color('gray30')
 
     def __init__(self, width=800, height=600):
-
         pygame.init()
         self.width, self.height = width, height
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
+        self.font = pygame.font.Font(None, 36)
+        self.background_image = pygame.image.load("../assets/images/arctic.png")
+        self.background_image = pygame.transform.scale(self.background_image, (self.width, self.height))
+        self.selected_button_index = 0
 
-        self.slowride = pygbutton.PygButton((300, 75, 200, 50), 'Top Gun Anthem (Easy)')
-        self.slowride.bgcolor = Color('green')
-        self.jukebox = pygbutton.PygButton((300, 175, 200, 50), 'Top Gun Anthem (Expert)')
-        self.jukebox.bgcolor = Color('red')
-        self.topgun = pygbutton.PygButton((300, 275, 200, 50), 'Top Gun Anthem (Hard)')
-        self.topgun.bgcolor = Color('yellow')
-        self.hail = pygbutton.PygButton((300, 375, 200, 50), 'Hail to the King (Expert)')
-        self.hail.bgcolor = Color('blue')
-        self.choose = pygbutton.PygButton((300, 475, 200, 50), 'Choose a File...')
-        self.choose.bgcolor = Color('orange')
+        # Definindo uma fonte personalizada para os botões
+        button_font = pygame.font.Font(None, 24)
 
-        self.font = pygame.font.Font('freesansbold.ttf', 20)
-        
+        # Ajustando as coordenadas dos botões para alinhá-los à esquerda
+        button_x = 50
+        button_y = 75
+        button_spacing = 100
+        button_width = 300
+
+
+        self.slowride = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Easy)', font=button_font)
+        self.slowride.bgcolor = pygame.Color('green')
+
+        button_y += button_spacing
+        self.jukebox = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Expert)', font=button_font)
+        self.jukebox.bgcolor = pygame.Color('red')
+
+        button_y += button_spacing
+        self.topgun = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Hard)', font=button_font)
+        self.topgun.bgcolor = pygame.Color('yellow')
+
+        button_y += button_spacing
+        self.hail = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Hail to the King (Expert)', font=button_font)
+        self.hail.bgcolor = pygame.Color('blue')
+
+        button_y += button_spacing
+        self.choose = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Choose a File...', font=button_font)
+        self.choose.bgcolor = pygame.Color('orange')
 
     def main_loop(self):
         while not self.done:
@@ -240,22 +261,25 @@ class Menu():
         pygame.quit()
 
     def draw(self):
-        self.screen.fill(self.color_bg)
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background_image, (0, 0))
 
-        self.slowride.draw(self.screen)
-        self.jukebox.draw(self.screen)
-        self.topgun.draw(self.screen)
-        self.hail.draw(self.screen)
-        self.choose.draw(self.screen)
+        buttons = [self.slowride, self.jukebox, self.topgun, self.hail, self.choose]
 
-        pygame.display.flip() #put all the work on the screen
+        for i, button in enumerate(buttons):
+            if i == self.selected_button_index:
+                button.bgcolor = pygame.Color('white')
+            else:
+                button.bgcolor = pygame.Color('gray')
+
+            button.draw(self.screen)
+
+        pygame.display.flip()  # Put all the work on the screen
 
     def handle_events(self):
-
         events = pygame.event.get()
-        
-        for event in events:
 
+        for event in events:
             if event.type == pygame.QUIT:
                 self.done = True
             elif event.type == KEYDOWN:
@@ -319,7 +343,7 @@ class Menu():
             if 'click' in self.hail.handleEvent(event):
                 game = GameMain('../assets/charts/hail.chart')
                 game.main_loop()
-            if 'click' in self.choose.handleEvent(event):   
+            if 'click' in self.choose.handleEvent(event):
                 root = tk.Tk()
                 root.withdraw()
                 file_path = tkFileDialog.askopenfilename()
@@ -329,3 +353,34 @@ class Menu():
                     file_path = file_path.split('/')
                     game = GameMain(file_path[-1])
                     game.main_loop()
+            elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    self.selected_button_index = (self.selected_button_index - 1) % 5
+                elif event.key == K_DOWN:
+                    self.selected_button_index = (self.selected_button_index + 1) % 5
+                elif event.key == K_RETURN:
+                    if self.selected_button_index == 0:
+                        game = GameMain('assets/charts/topgun(easy).chart')
+                        game.main_loop()
+                    elif self.selected_button_index == 1:
+                        game = GameMain('assets/charts/topgun(expert).chart')
+                        game.main_loop()
+                    elif self.selected_button_index == 2:
+                        game = GameMain('assets/charts/topgun.chart')
+                        game.main_loop()
+                    elif self.selected_button_index == 3:
+                        game = GameMain('../assets/charts/hail.chart')
+                        game.main_loop()
+                    elif self.selected_button_index == 4:
+                        root = tk.Tk()
+                        root.withdraw()
+                        file_path = tkFileDialog.askopenfilename()
+                        if file_path == '':
+                            pass
+                        else:
+                            file_path = file_path.split('/')
+                            game = GameMain(file_path[-1])
+                            game.main_loop()
+
+menu = Menu()
+menu.main_loop()
