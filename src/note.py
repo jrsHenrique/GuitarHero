@@ -46,8 +46,28 @@ class Note(pygame.sprite.Sprite):
         if self.sustain:
             self.sustain_y += self.speed
 
+
+        if self.x == 540:
+            self.rect.x = self.x - 75*(self.rect.y)/720
+            if self.rect.x < 440:
+                self.rect.x = 440
+        elif self.x == 590:
+            self.rect.x = self.x - (75/2)*(self.rect.y)/720
+            if self.rect.x < 540:
+                self.rect.x = 540
+        elif self.x == 690:
+            self.rect.x = self.x + (10)*(self.rect.y)/720
+            if self.rect.x > 740:
+                self.rect.x = 740
+        elif self.x == 740:
+            self.rect.x = self.x + (75/2)*(self.rect.y)/720
+            if self.rect.x > 840:
+                self.rect.x = 840
+
+
         if self.rect.center[1] > 830 and not self.dead:
             self.handle_miss()
+
 
     def handle_miss(self):
         if self.sustain and self.sustain_y > 830:
