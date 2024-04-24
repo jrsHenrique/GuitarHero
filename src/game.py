@@ -30,10 +30,12 @@ class GameMain():
         fire_image_original = pygame.image.load('../assets/images/rXjEwA.gif.png').convert_alpha()
         self.fire_image = pygame.transform.scale(fire_image_original, (120, 120))  # Redimensionar a imagem para caber no botão
         self.fire_active = False
+
         self.score = 0
         self.multiplier = 1
         self.partial_multiplier = 0
         self.missed_notes = 0
+        self.hit_notes = 0
   
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.score_text = self.font.render('0', True, Color('white'))
@@ -56,11 +58,18 @@ class GameMain():
                 note.update()
             for fret in self.frets:
                 fret.update()
+            self.missed_update()
             self.draw()
             self.clock.tick(60)
-            print(self.clock.get_fps())
+
+            print(self.hit_notes)
         pygame.quit()
 
+    def missed_update(self):
+        if self.hit_notes >= 6:
+            self.missed_notes = 0
+            self.hit_notes = 0
+            
     def draw(self):
         self.screen.fill(self.color_bg)
         if not self.song_over:
@@ -198,11 +207,7 @@ class GameMain():
                     for fret in self.frets:
                         if fret.pressed:
                             fret.check_for_strum()
-
-import pygame
-import pygbutton
-from pygame.locals import *
-
+                        
 class Menu:
     done = False
     color_bg = pygame.Color('gray30')

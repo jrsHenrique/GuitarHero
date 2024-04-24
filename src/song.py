@@ -47,14 +47,12 @@ class Song:
                 elif 'Resolution' in line:
                     self.resolution = int(line[13:])
                     self.hopo_distance = (65*self.resolution) / 192
-                    #print self.hopo_distance
                 elif 'Offset' in line:
                     self.offset = float(line[9:])
                 elif 'BPM' in line:
                     self.bpm = int(line[6:])
                 elif 'Divisor' in line:
                     self.divisor = float(line[10:])
-                    #print self.divisor
                 elif ' B ' in line:
                     line = line.split(' ')
                     tick = int(line[0])
@@ -76,7 +74,7 @@ class Song:
                         sustain_end_beat = (sustain / float(self.resolution)) + self.offset
                         sustain = (720.0 - (sustain_end_beat * pixels_per_beat)) / self.divisor
                         sustain = int(round(sustain))
-                        #print sustain
+
                     if len(self.note_list) != 0:
                         if tick == self.note_list[-1].tick and note_type != 5:
                             chord = True
@@ -84,7 +82,7 @@ class Song:
                         else:
                             chord = False
                     sustain_tick = int(line[-1])
-                    #print note_beat, note_y
+
                     if note_type == 0:
                         color = 'green'
                         self.note_list.append(Note(tick, note_y, color, chord, self.game, sustain, sustain_tick))
