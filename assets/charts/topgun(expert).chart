@@ -1,4 +1,4 @@
-AudioStream = ../assets/sounds/baroes.ogg
+AudioStream = assets/sounds/baroes.ogg
 Resolution = 192
 Offset = -3.75
 BPM = 160   

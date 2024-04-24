@@ -16,6 +16,9 @@ class GameMain():
         pygame.mixer.pre_init(44100,-16,2,2048)
         pygame.init()
         self.width, self.height = width, height
+
+        self.background_image2 = pygame.image.load("assets/images/bg1.png")
+        self.background_image2 = pygame.transform.scale(self.background_image2, (self.width, self.height))
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.chart = chart
@@ -75,7 +78,10 @@ class GameMain():
             self.hit_notes = 0
             
     def draw(self):
-        self.screen.fill(self.color_bg)
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background_image2, (0, 0))
+        pygame.draw.rect(self.screen, (0, 0, 0, 179), (0.36*self.width, 0, 0.28*self.width, self.height))
+
         if not self.song_over:
             for fret in self.frets:
                 pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 25)
@@ -118,18 +124,20 @@ class GameMain():
 
         #The end of song screen
         else:
-            self.final_score_text = self.font.render('Final Score: {}'.format(self.score), True, Color('blue'))
+            pygame.draw.rect(self.screen, Color('black'), (self.width/4, self.height/4, self.width/2, self.height/2))
+            self.final_score_text = self.font.render('Final Score: {}'.format(self.score), True, Color('white'))
             self.final_score_rect = self.final_score_text.get_rect()
-            self.final_score_rect.center = (self.width/2, self.height/2 - 50)
-            self.play_again_text = self.font.render('Press A or Green to return to menu', True, Color('green'))
+            self.final_score_rect.center = (self.width/2, self.height/2 - 90)
+            self.play_again_text = self.font.render('Press A or Green to return to menu', True, Color('white'))
             self.play_again_rect = self.play_again_text.get_rect()
             self.play_again_rect.center = (self.width/2, self.height/2)
-            self.quit_text = self.font.render('Press S or Red to quit', True, Color('red'))
+            self.quit_text = self.font.render('Press S or Red to quit', True, Color('white'))
             self.quit_rect = self.quit_text.get_rect()
-            self.quit_rect.center = (self.width/2, self.height/2 + 50)
+            self.quit_rect.center = (self.width/2, self.height/2 + 90)
             self.screen.blit(self.final_score_text, self.final_score_rect)
             self.screen.blit(self.play_again_text, self.play_again_rect)
             self.screen.blit(self.quit_text, self.quit_rect)
+
         pygame.display.flip()  # put all the work on the screen
 
     def handle_events(self):
@@ -224,7 +232,7 @@ class Menu:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
-        self.background_image = pygame.image.load("../assets/images/guitarnew.png")
+        self.background_image = pygame.image.load("assets/images/guitarnew.png")
         self.background_image = pygame.transform.scale(self.background_image, (self.width, self.height))
         self.selected_button_index = 0
 
@@ -335,16 +343,16 @@ class Menu:
                         game.main_loop()
 
             if 'click' in self.slowride.handleEvent(event):
-                game = GameMain('../assets/charts/topgun(easy).chart')
+                game = GameMain('assets/charts/topgun(easy).chart')
                 game.main_loop()
             if 'click' in self.jukebox.handleEvent(event):
-                game = GameMain('../assets/charts/topgun(expert).chart')
+                game = GameMain('assets/charts/topgun(expert).chart')
                 game.main_loop()
             if 'click' in self.topgun.handleEvent(event):
-                game = GameMain('../assets/charts/topgun.chart')
+                game = GameMain('assets/charts/topgun.chart')
                 game.main_loop()
             if 'click' in self.hail.handleEvent(event):
-                game = GameMain('../assets/charts/hail.chart')
+                game = GameMain('assets/charts/hail.chart')
                 game.main_loop()
             if 'click' in self.choose.handleEvent(event):
                 root = tk.Tk()
@@ -363,16 +371,16 @@ class Menu:
                     self.selected_button_index = (self.selected_button_index + 1) % 5
                 elif event.key == K_RETURN:
                     if self.selected_button_index == 0:
-                        game = GameMain('../assets/charts/topgun(easy).chart')
+                        game = GameMain('assets/charts/topgun(easy).chart')
                         game.main_loop()
                     elif self.selected_button_index == 1:
-                        game = GameMain('../assets/charts/topgun(expert).chart')
+                        game = GameMain('assets/charts/topgun(expert).chart')
                         game.main_loop()
                     elif self.selected_button_index == 2:
-                        game = GameMain('../assets/charts/topgun.chart')
+                        game = GameMain('assets/charts/topgun.chart')
                         game.main_loop()
                     elif self.selected_button_index == 3:
-                        game = GameMain('../assets/charts/hail.chart')
+                        game = GameMain('assets/charts/hail.chart')
                         game.main_loop()
                     elif self.selected_button_index == 4:
                         root = tk.Tk()
