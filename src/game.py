@@ -5,6 +5,7 @@ from fret import Fret
 import pygbutton
 import tkinter as tk
 import tkinter.filedialog as tkFileDialog
+from lifebar import Lifebar
 
 class GameMain():
 
@@ -27,9 +28,11 @@ class GameMain():
         self.fret3 = Fret(690, 720, Color('blue'), 3, self)
         self.fret4 = Fret(740, 720, Color('orange'), 4, self)
         self.frets.add(self.fret0, self.fret1, self.fret2, self.fret3, self.fret4)
-        fire_image_original = pygame.image.load('../assets/images/rXjEwA.gif.png').convert_alpha()
+        fire_image_original = pygame.image.load('assets/images/rXjEwA.gif.png').convert_alpha()
         self.fire_image = pygame.transform.scale(fire_image_original, (120, 120))  # Redimensionar a imagem para caber no botão
         self.fire_active = False
+
+        self.lifebar = Lifebar(10, self)
 
         self.score = 0
         self.multiplier = 1
@@ -59,6 +62,7 @@ class GameMain():
             for fret in self.frets:
                 fret.update()
             self.missed_update()
+            self.lifebar.update_life()
             self.draw()
             self.clock.tick(60)
 
@@ -109,6 +113,8 @@ class GameMain():
                 #stop media playback
                 self.song.audio_stream.stop()
                 self.song_over = True
+            
+            self.lifebar.draw()
 
         #The end of song screen
         else:
