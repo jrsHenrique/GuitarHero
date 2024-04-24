@@ -231,12 +231,11 @@ class Menu:
         button_spacing = 100
         button_width = 300
 
-
         self.slowride = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Easy)', font=button_font)
         self.slowride.bgcolor = pygame.Color('green')
 
         button_y += button_spacing
-        self.jukebox = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Expert)', font=button_font)
+        self.jukebox = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Baroes da Pisadinha', font=button_font)
         self.jukebox.bgcolor = pygame.Color('red')
 
         button_y += button_spacing
