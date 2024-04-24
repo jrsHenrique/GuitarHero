@@ -47,6 +47,8 @@ class GameMain():
         self.partial_text_rect.center = (940, 530)
         self.song.audio_stream.play()
         self.song_over = False
+        self.background_image = pygame.image.load("../assets/images/back.jpg")
+        self.background_image = pygame.transform.scale(self.background_image, (self.width, self.height))
 
     def main_loop(self):
         while not self.done:
@@ -62,7 +64,8 @@ class GameMain():
         pygame.quit()
 
     def draw(self):
-        self.screen.fill(self.color_bg)
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background_image, (0, 0))
         if not self.song_over:
             for fret in self.frets:
                 pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 25)
