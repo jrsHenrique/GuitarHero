@@ -35,7 +35,9 @@ class GameMain():
         self.partial_multiplier = 0
         self.missed_notes = 0
   
-        self.font = pygame.font.Font('freesansbold.ttf', 32)
+        self.font = pygame.font.Font('freesansbold.ttf', 32)    
+        self.background_image2 = pygame.image.load("assets/images/bg1.png")
+        self.background_image2 = pygame.transform.scale(self.background_image2, (self.width, self.height))
         self.score_text = self.font.render('0', True, Color('white'))
         self.score_text_rect = self.score_text.get_rect()
         self.score_text_rect.center = (940, 400)
@@ -62,7 +64,10 @@ class GameMain():
         pygame.quit()
 
     def draw(self):
-        self.screen.fill(self.color_bg)
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background_image2, (0, 0))
+        pygame.draw.rect(self.screen, (0, 0, 0, 179), (0.36*self.width, 0, 0.28*self.width, self.height))
+        
         if not self.song_over:
             for fret in self.frets:
                 pygame.draw.circle(self.screen, Color('black'), fret.rect.center, 25)
@@ -103,18 +108,20 @@ class GameMain():
 
         #The end of song screen
         else:
-            self.final_score_text = self.font.render('Final Score: {}'.format(self.score), True, Color('blue'))
+            pygame.draw.rect(self.screen, Color('black'), (self.width/4, self.height/4, self.width/2, self.height/2))
+            self.final_score_text = self.font.render('Final Score: {}'.format(self.score), True, Color('white'))
             self.final_score_rect = self.final_score_text.get_rect()
-            self.final_score_rect.center = (self.width/2, self.height/2 - 50)
-            self.play_again_text = self.font.render('Press A or Green to return to menu', True, Color('green'))
+            self.final_score_rect.center = (self.width/2, self.height/2 - 90)
+            self.play_again_text = self.font.render('Press A or Green to return to menu', True, Color('white'))
             self.play_again_rect = self.play_again_text.get_rect()
             self.play_again_rect.center = (self.width/2, self.height/2)
-            self.quit_text = self.font.render('Press S or Red to quit', True, Color('red'))
+            self.quit_text = self.font.render('Press S or Red to quit', True, Color('white'))
             self.quit_rect = self.quit_text.get_rect()
-            self.quit_rect.center = (self.width/2, self.height/2 + 50)
+            self.quit_rect.center = (self.width/2, self.height/2 + 90)
             self.screen.blit(self.final_score_text, self.final_score_rect)
             self.screen.blit(self.play_again_text, self.play_again_rect)
             self.screen.blit(self.quit_text, self.quit_rect)
+            
         pygame.display.flip()  # put all the work on the screen
 
     def handle_events(self):
