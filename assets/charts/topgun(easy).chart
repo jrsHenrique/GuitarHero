@@ -1,4 +1,4 @@
-AudioStream = ../assets/sounds/topgun.ogg
+AudioStream = assets/sounds/topgun.ogg
 Resolution = 480
 Offset = -1.5
 BPM = 107

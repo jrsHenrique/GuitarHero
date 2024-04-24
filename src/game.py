@@ -27,7 +27,7 @@ class GameMain():
         self.fret3 = Fret(690, 720, Color('blue'), 3, self)
         self.fret4 = Fret(740, 720, Color('orange'), 4, self)
         self.frets.add(self.fret0, self.fret1, self.fret2, self.fret3, self.fret4)
-        fire_image_original = pygame.image.load('../assets/images/rXjEwA.gif.png').convert_alpha()
+        fire_image_original = pygame.image.load('assets/images/rXjEwA.gif.png').convert_alpha()
         self.fire_image = pygame.transform.scale(fire_image_original, (120, 120))  # Redimensionar a imagem para caber no botão
         self.fire_active = False
         self.score = 0
@@ -213,7 +213,7 @@ class Menu:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
-        self.background_image = pygame.image.load("../assets/images/guitarnew.png")
+        self.background_image = pygame.image.load("assets/images/guitarnew.png")
         self.background_image = pygame.transform.scale(self.background_image, (self.width, self.height))
         self.selected_button_index = 0
 
@@ -325,16 +325,16 @@ class Menu:
                         game.main_loop()
 
             if 'click' in self.slowride.handleEvent(event):
-                game = GameMain('../assets/charts/topgun(easy).chart')
+                game = GameMain('assets/charts/topgun(easy).chart')
                 game.main_loop()
             if 'click' in self.jukebox.handleEvent(event):
-                game = GameMain('../assets/charts/topgun(expert).chart')
+                game = GameMain('assets/charts/topgun(expert).chart')
                 game.main_loop()
             if 'click' in self.topgun.handleEvent(event):
-                game = GameMain('../assets/charts/topgun.chart')
+                game = GameMain('assets/charts/topgun.chart')
                 game.main_loop()
             if 'click' in self.hail.handleEvent(event):
-                game = GameMain('../assets/charts/hail.chart')
+                game = GameMain('assets/charts/hail.chart')
                 game.main_loop()
             if 'click' in self.choose.handleEvent(event):
                 root = tk.Tk()
@@ -353,16 +353,16 @@ class Menu:
                     self.selected_button_index = (self.selected_button_index + 1) % 5
                 elif event.key == K_RETURN:
                     if self.selected_button_index == 0:
-                        game = GameMain('../assets/charts/topgun(easy).chart')
+                        game = GameMain('assets/charts/topgun(easy).chart')
                         game.main_loop()
                     elif self.selected_button_index == 1:
-                        game = GameMain('../assets/charts/topgun(expert).chart')
+                        game = GameMain('assets/charts/topgun(expert).chart')
                         game.main_loop()
                     elif self.selected_button_index == 2:
-                        game = GameMain('../assets/charts/topgun.chart')
+                        game = GameMain('assets/charts/topgun.chart')
                         game.main_loop()
                     elif self.selected_button_index == 3:
-                        game = GameMain('../assets/charts/hail.chart')
+                        game = GameMain('assets/charts/hail.chart')
                         game.main_loop()
                     elif self.selected_button_index == 4:
                         root = tk.Tk()
