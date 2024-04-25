@@ -188,39 +188,6 @@ class GameMain():
                 elif event.key == K_g:
                     self.fret4.pressed = False
 
-            #Controller controls
-            elif event.type == JOYBUTTONDOWN:
-                if event.button == 0:
-                    self.fret0.pressed = True
-                    if self.song_over:
-                        menu = Menu()
-                        menu.main_loop()
-                elif event.button == 1:
-                    self.fret1.pressed = True
-                    if self.song_over:
-                        self.done = True
-                elif event.button == 3:
-                    self.fret2.pressed = True
-                elif event.button == 2:
-                    self.fret3.pressed = True
-                elif event.button == 4:
-                    self.fret4.pressed = True
-            elif event.type == JOYBUTTONUP:
-                if event.button == 0:
-                    self.fret0.pressed = False
-                elif event.button == 1:
-                    self.fret1.pressed = False
-                elif event.button == 3:
-                    self.fret2.pressed = False
-                elif event.button == 2:
-                    self.fret3.pressed = False
-                elif event.button == 4:
-                    self.fret4.pressed = False
-            elif event.type == JOYHATMOTION:
-                if event.value == (0, -1) or event.value == (0, 1):
-                    for fret in self.frets:
-                        if fret.pressed:
-                            fret.check_for_strum()
                         
 class Menu:
     done = False
@@ -253,16 +220,8 @@ class Menu:
         self.jukebox.bgcolor = pygame.Color('red')
 
         button_y += button_spacing
-        self.topgun = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Top Gun Anthem (Hard)', font=button_font)
-        self.topgun.bgcolor = pygame.Color('yellow')
-
-        button_y += button_spacing
         self.hail = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Hail to the King (Expert)', font=button_font)
         self.hail.bgcolor = pygame.Color('blue')
-
-        button_y += button_spacing
-        self.choose = pygbutton.PygButton((button_x, button_y, button_width, 50), 'Choose a File...', font=button_font)
-        self.choose.bgcolor = pygame.Color('orange')
 
     def main_loop(self):
         while not self.done:
@@ -275,7 +234,7 @@ class Menu:
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background_image, (0, 0))
 
-        buttons = [self.slowride, self.jukebox, self.topgun, self.hail, self.choose]
+        buttons = [self.slowride, self.jukebox, self.hail]
 
         for i, button in enumerate(buttons):
             if i == self.selected_button_index:
@@ -297,50 +256,14 @@ class Menu:
                 if event.key == K_ESCAPE:
                     self.done = True
                 elif event.key == K_a:
-                    game = GameMain('topgun(easy).chart')
+                    game = GameMain('assets/charts/topgun(easy).chart')
                     game.main_loop()
                 elif event.key == K_s:
-                    game = GameMain('topgun(expert).chart')
+                    game = GameMain('assets/charts/topgun(expert).chart')
                     game.main_loop()
                 elif event.key == K_d:
-                    game = GameMain('topgun.chart')
+                    game = GameMain('assets/charts/hail.chart')
                     game.main_loop()
-                elif event.key == K_f:
-                    game = GameMain('hail.chart')
-                    game.main_loop()
-                elif event.key == K_g:
-                    root = tk.Tk()
-                    root.withdraw()
-                    file_path = tkFileDialog.askopenfilename()
-                    if file_path == '':
-                        pass
-                    else:
-                        file_path = file_path.split('/')
-                        game = GameMain(file_path[-1])
-                        game.main_loop()
-            elif event.type == JOYBUTTONDOWN:
-                if event.button == 0:
-                    game = GameMain('topgun(easy).chart')
-                    game.main_loop()
-                elif event.button == 1:
-                    game = GameMain('topgun(expert).chart')
-                    game.main_loop()
-                elif event.button == 3:
-                    game = GameMain('topgun.chart')
-                    game.main_loop()
-                elif event.button == 2:
-                    game = GameMain('hail.chart')
-                    game.main_loop()
-                elif event.button == 4:
-                    root = tk.Tk()
-                    root.withdraw()
-                    file_path = tkFileDialog.askopenfilename()
-                    if file_path == '':
-                        pass
-                    else:
-                        file_path = file_path.split('/')
-                        game = GameMain(file_path[-1])
-                        game.main_loop()
 
             if 'click' in self.slowride.handleEvent(event):
                 game = GameMain('assets/charts/topgun(easy).chart')
@@ -348,22 +271,9 @@ class Menu:
             if 'click' in self.jukebox.handleEvent(event):
                 game = GameMain('assets/charts/topgun(expert).chart')
                 game.main_loop()
-            if 'click' in self.topgun.handleEvent(event):
-                game = GameMain('assets/charts/topgun.chart')
-                game.main_loop()
             if 'click' in self.hail.handleEvent(event):
                 game = GameMain('assets/charts/hail.chart')
                 game.main_loop()
-            if 'click' in self.choose.handleEvent(event):
-                root = tk.Tk()
-                root.withdraw()
-                file_path = tkFileDialog.askopenfilename()
-                if file_path == '':
-                    pass
-                else:
-                    file_path = file_path.split('/')
-                    game = GameMain(file_path[-1])
-                    game.main_loop()
             elif event.type == KEYDOWN:
                 if event.key == K_UP:
                     self.selected_button_index = (self.selected_button_index - 1) % 5
@@ -377,21 +287,8 @@ class Menu:
                         game = GameMain('assets/charts/topgun(expert).chart')
                         game.main_loop()
                     elif self.selected_button_index == 2:
-                        game = GameMain('assets/charts/topgun.chart')
-                        game.main_loop()
-                    elif self.selected_button_index == 3:
                         game = GameMain('assets/charts/hail.chart')
                         game.main_loop()
-                    elif self.selected_button_index == 4:
-                        root = tk.Tk()
-                        root.withdraw()
-                        file_path = tkFileDialog.askopenfilename()
-                        if file_path == '':
-                            pass
-                        else:
-                            file_path = file_path.split('/')
-                            game = GameMain(file_path[-1])
-                            game.main_loop()
 
 menu = Menu()
 menu.main_loop()
