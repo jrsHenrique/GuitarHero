@@ -26,4 +26,4 @@ GuitarHero is a fun project that simulates playing a guitar on your computer. It
 # How to play
 
 - Choose your song
-- Control de fret buttons with ASDFG keys and strum with the left arrow
+- Control the fret buttons with ASDFG keys and strum with the left arrow
